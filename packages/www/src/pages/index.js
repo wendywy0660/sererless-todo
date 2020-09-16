@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Heading, Button, Flex } from "theme-ui";
+import netlifyIdentity from "netlify-identity-widget";
 
-const index = (props) => (
-  <Container>
-    <Flex sx={{ flexDirection: "column", padding: 3 }}>
-      <Heading as="h1">My site</Heading>
-      <Button onClick={() => {}}>Log in</Button>
-    </Flex>
-  </Container>
-);
-
-export default index;
+export default (props) => {
+  useEffect(() => {
+    netlifyIdentity.init({
+      // container: '#netlify-modal', // defaults to document.body
+      // locale: 'en' // defaults to 'en'
+    });
+  });
+  return (
+    <Container>
+      <Flex sx={{ flexDirection: "column", padding: 3 }}>
+        <Heading as="h1">My site</Heading>
+        <Button
+          onClick={() => {
+            netlifyIdentity.open();
+          }}
+        >
+          Log in
+        </Button>
+        <Button
+          sx={{ marginTop: 2 }}
+          onClick={() => {
+            console.log(netlifyIdentity.currentUser());
+          }}
+        >
+          Log user
+        </Button>
+      </Flex>
+    </Container>
+  );
+};
