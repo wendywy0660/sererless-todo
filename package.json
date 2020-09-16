@@ -1,0 +1,12 @@
+{
+  "name": "sererless-todo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:wendywy0660/sererless-todo.git",
+  "author": "Wendy WANG <wendwy0660@hotmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
