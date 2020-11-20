@@ -22,8 +22,8 @@ const ADD_TODO = gql`
 `;
 
 const UPDATE_TODO_DONE = gql`
-  mutation UpdateTodoDone($id: ID!) {
-    updateTodoDone(id: $id) {
+  mutation UpdateTodoDone($id: ID!, $done: Boolean!) {
+    updateTodoDone(id: $id, done: $done) {
       text
       done
     }
@@ -57,7 +57,7 @@ let Dash = () => {
   const { user, identity: netlifyIdentity } = useContext(IdentityContext);
   // const [todos, setTodos] = useState([]);
 
-  const [todos, dispatch] = useReducer(todosReducer, []);
+  // const [todos, dispatch] = useReducer(todosReducer, []);
   const inputRef = useRef();
   const [addTodo] = useMutation(ADD_TODO);
   const [updateTodoDone] = useMutation(UPDATE_TODO_DONE);
@@ -112,7 +112,9 @@ let Dash = () => {
                 as="li"
                 onClick={async () => {
                   console.log("updateTodoDone");
-                  await updateTodoDone({ variables: { id: todo.id } });
+                  await updateTodoDone({
+                    variables: { id: todo.id, done: !todo.done },
+                  });
                   console.log("refetching");
                   await refetch();
                 }}

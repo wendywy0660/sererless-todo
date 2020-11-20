@@ -16,7 +16,7 @@ const typeDefs = gql`
   }
   type Mutation {
     addTodo(text: String!): Todo
-    updateTodoDone(id: ID!): Todo
+    updateTodoDone(id: ID!, done: Boolean!): Todo
   }
 `;
 
@@ -57,14 +57,14 @@ const resolvers = {
         id: results.ref.id,
       };
     },
-    updateTodoDone: async (_, { id }, { user }) => {
+    updateTodoDone: async (_, { id, done }, { user }) => {
       if (!user) {
         throw new Error("Must be authenticated to insert todos");
       }
       const results = await client.query(
         q.Update(q.Ref(q.Collection("todos"), id), {
           data: {
-            done: true,
+            done,
           },
         })
       );
